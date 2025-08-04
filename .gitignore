@@ -52,15 +52,15 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Virtual environments
+# Virtual environments - IMPORTANTE: No subir entornos virtuales
 .env
-.venv
+.venv/
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
-.virtualenv
+.virtualenv/
 
 # ================================
 # Machine Learning & AI
@@ -92,20 +92,57 @@ tensorboard/
 object_detection/
 object_detection_*/
 
-# Datasets
-data/images/
-data/validation_images/
-data/train/
-data/test/
-data/val/
-*.csv
-*.json
-*.xml
-
-# Keep structure files but ignore content
-!data/.gitkeep
+# ================================
+# Data - Mantener estructura pero no contenido
+# ================================
+# Datasets (excluir contenido pero mantener estructura)
+data/images/*
 !data/images/.gitkeep
+
+data/validation_images/*
 !data/validation_images/.gitkeep
+
+data/train/*
+!data/train/.gitkeep
+
+data/test/*
+!data/test/.gitkeep
+
+data/val/*
+!data/val/.gitkeep
+
+# Archivos de datos procesados
+data/*.csv
+data/*.json
+data/*.xml
+data/*.joblib
+
+# Mantener estructura
+!data/.gitkeep
+
+# ================================
+# Static - Mantener estructura pero no contenido subido
+# ================================
+# Archivos subidos por usuarios (excluir contenido pero mantener estructura)
+static/uploaded/*
+!static/uploaded/.gitkeep
+
+# Imágenes procesadas
+static/predict/*
+!static/predict/.gitkeep
+
+# Imágenes ROI
+static/roi/*
+!static/roi/.gitkeep
+
+# Permitir archivos CSS, JS y otros recursos estáticos
+!static/css/
+!static/js/
+!static/fonts/
+!static/icons/
+!static/*.css
+!static/*.js
+!static/*.ico
 
 # ================================
 # Flask
@@ -116,18 +153,10 @@ instance/
 # Flask session files
 flask_session/
 
-# Uploaded files
-# static/uploaded/
-# static/predict/
-# static/roi/
+# Otros directorios de uploads
 uploads/
 temp/
 tmp/
-
-# Keep structure
-!static/uploaded/.gitkeep
-!static/predict/.gitkeep
-!static/roi/.gitkeep
 
 # ================================
 # Environment Variables
@@ -228,7 +257,7 @@ docs/_build/
 site/
 
 # ================================
-# Label Studio (from your README)
+# Label Studio
 # ================================
 label-studio/
 .label-studio/
@@ -258,47 +287,9 @@ sample_images/
 requirements_backup.txt
 
 # ================================
-# Keep these files/folders
+# Keep these files/folders (IMPORTANTE)
 # ================================
 !.gitkeep
 !requirements.txt
 !README.md
 !deps/requirements.txt
-
-# ================================
-# Uploaded and Generated Images
-# ================================
-# User uploaded images (privacy + size)
-static/uploaded/*
-!static/uploaded/.gitkeep
-
-# Generated prediction images
-static/predict/*
-!static/predict/.gitkeep
-
-# ROI (Region of Interest) cropped images
-static/roi/*
-!static/roi/.gitkeep
-
-# Dataset images (too large for git)
-data/images/*
-!data/images/.gitkeep
-!data/images/sample_*.jpg  # Permitir imágenes de ejemplo
-
-data/validation_images/*
-!data/validation_images/.gitkeep
-!data/validation_images/demo_*.jpg  # Permitir demos
-
-# ================================
-# Allow demo/example images
-# ================================
-!**/demo.*
-!**/example.*
-!**/sample.*
-!docs/**/*.png
-!docs/**/*.jpg
-
-# ================================
-# Rest of the gitignore...
-# ================================
-# (el resto del contenido que ya tenías)
