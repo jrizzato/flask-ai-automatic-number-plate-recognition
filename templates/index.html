@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Patente OCR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+            <h1 class="display-6">Patente OCR</h1>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mt-5">
+        <form action="#" method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+                <input type="file" class="form-control" name="image_name" required>
+                <input type="submit" value="Procesar Imagen" class="btn btn-primary">
+            </div>
+        </form>
+        <br>
+    </div>
+
+    {% if upload %}
+      <div class="container mt-3">
+
+        <table>
+          <tr>
+            <th>Uploaded Image</th>
+            <th>Predicted Image</th>
+          </tr>
+          <tr> <!-- table row -->
+            <td> <!-- table data-->
+              <img src="./static/uploaded/{{ upload_image }}" class="rounded float-left img-fluid">
+            </td>
+            <td>
+              <img src="./static/predict/{{ upload_image }}" class="rounded float-right img-fluid">
+            </td>
+          </tr>
+        </table>
+        <br>
+
+        <table style="border: solid black; width: 100%;">
+          <tr style="border: solid black;">
+            <th>Cropped Licence Plate Image</th>
+            <th>Text</th>
+          </tr>
+          <tr style="border: solid black;">
+            <td>
+             <img class="img-fluid" src="/static/roi/{{ upload_image }}" alt="">
+            </td>
+            <td style="background-color: greenyellow;">
+              <h1 class="display-8"> {{ text }}</h1>
+            </td>
+          </tr>
+        </table>
+      </div>
+    {% endif %}
+    
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+      <div class="container">
+        <p class="mb-0">© 2023 Patente OCR. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
