@@ -22,9 +22,9 @@ print('First 5 image paths:')
 print(*image_path[:5], sep='\n')  # Display first 5 image paths
 
 # verificar imagen y salida
-file_path = image_path[160]
+file_path = image_path[0]
 img = cv2.imread(file_path)
-cv2.rectangle(img, (590, 331), (899, 437), (0, 255, 0), 3)
+cv2.rectangle(img, (226, 173), (419, 125), (0, 255, 0), 3)
 cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
 cv2.imshow('Image', img)
 cv2.waitKey(0)

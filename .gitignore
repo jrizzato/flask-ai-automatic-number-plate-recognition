@@ -97,6 +97,7 @@ object_detection_*/
 # ================================
 # Datasets (excluir contenido pero mantener estructura)
 data/images/*
+data/_images/*
 !data/images/.gitkeep
 
 data/validation_images/*

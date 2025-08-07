@@ -7,7 +7,7 @@ import easyocr
 # from paddleocr import PaddleOCR
 
 print("******** ----------- Cargando modelo ---------------- *********")
-model = load('./model/object_detection_model.joblib') 
+model = load('./model/_object_detection_model.joblib') 
 print("******** ----------- Model loaded successfully. ---------------- *********")
 
 def object_detection(path):
@@ -35,7 +35,7 @@ def object_detection(path):
     return image, coords
 
 
-path = './data/images/N42.jpeg'
+path = './data/images/Cars410.png'
 image, coords = object_detection(path)
 
 img = np.array(load_img(path))

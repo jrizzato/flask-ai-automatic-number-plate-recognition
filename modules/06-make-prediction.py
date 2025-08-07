@@ -9,7 +9,7 @@ model = load('./model/object_detection_model.joblib')
 print("******** ----------- Model loaded successfully. ---------------- *********")
 
 # Cargar imagen
-path = './data/validation_images/8.jpeg'
+path = './data/validation_images/5.jpg'
 
 # Cargar imagen original para visualización
 image = load_img(path)
