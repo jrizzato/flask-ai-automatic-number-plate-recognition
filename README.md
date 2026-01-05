@@ -17,3 +17,5 @@ pip freeze > deps/requirements.txt
 pip install -r deps/requirements.txt
 
 tensorboard --logdir="object_detection" 
+
+python -m pip install --upgrade pip setuptools wheel                                                        
