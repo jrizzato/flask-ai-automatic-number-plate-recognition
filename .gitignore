@@ -294,3 +294,5 @@ requirements_backup.txt
 !requirements.txt
 !README.md
 !deps/requirements.txt
+
+notas.txt
