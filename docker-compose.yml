@@ -1,0 +1,109 @@
+# Docker Compose configuration for ANPR Flask application
+# Orquesta múltiples servicios (web, tensorboard, train) desde una única imagen
+
+version: '3.8'
+
+services:
+  # ============================================================
+  # Servicio web: Flask API para predicción y OCR
+  # ============================================================
+  web:
+    # Construir la imagen desde el Dockerfile en el directorio actual
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Comando a ejecutar en el contenedor
+    command: python server.py
+    
+    # Exponer puerto 5000 (Flask) desde el contenedor al host
+    ports:
+      - "5000:5000"
+    
+    # Montar volúmenes para acceso a datos persistentes
+    volumes:
+      # Datos de entrenamiento (imágenes y etiquetas)
+      - ./data:/app/data
+      # Modelos entrenados
+      - ./model:/app/model
+      # Imágenes subidas, predicciones y ROIs generados
+      - ./static:/app/static
+    
+    # Variables de entorno
+    environment:
+      PYTHONUNBUFFERED: 1
+      FLASK_ENV: production
+    
+    # Reintentos automáticos si falla
+    restart: unless-stopped
+
+  # ============================================================
+  # Servicio tensorboard: visualizar logs de entrenamiento
+  # (Corre en paralelo, accesible en http://localhost:6006)
+  # ============================================================
+  tensorboard:
+    # Usa la misma imagen que web (mismo Dockerfile)
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Comando para ejecutar TensorBoard
+    command: bash -lc "tensorboard --logdir object_detection --host 0.0.0.0 --port 6006"
+    
+    # Exponer puerto 6006 (TensorBoard)
+    ports:
+      - "6006:6006"
+    
+    # Montar directorios de logs
+    volumes:
+      - ./object_detection:/app/object_detection
+    
+    # Variable para evitar buffering
+    environment:
+      PYTHONUNBUFFERED: 1
+    
+    # No reiniciar automáticamente; solo cuando se levante explícitamente
+    restart: "no"
+
+  # ============================================================
+  # Servicio train: ejecutar el pipeline de entrenamiento
+  # (Perfil 'train': solo se levanta cuando se especifica explícitamente)
+  # ============================================================
+  train:
+    # Usa la misma imagen base
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Comando que ejecuta el entrenamiento del modelo
+    command: python modules/05-model-training.py
+    
+    # Perfil: evita que se levante con 'docker compose up' por defecto
+    # Usa 'docker compose --profile train run train' para ejecutarlo
+    profiles:
+      - train
+    
+    # Montar volúmenes compartidos con los otros servicios
+    volumes:
+      # Datos de entrada (imágenes y etiquetas)
+      - ./data:/app/data
+      # Guardar modelo entrenado
+      - ./model:/app/model
+      # Guardar logs de TensorBoard
+      - ./object_detection:/app/object_detection
+    
+    environment:
+      PYTHONUNBUFFERED: 1
+      TF_CPP_MIN_LOG_LEVEL: 2
+    
+    # No reinicia; corre una sola vez
+    restart: "no"
+
+# ============================================================
+# Configuración de volúmenes (solo si necesitas controlar a nivel red)
+# En este caso, usamos bind mounts (rutas locales) que funcionan sin declaración extra
+# ============================================================
+# volumes:
+#   data:
+#   model:
+#   static:

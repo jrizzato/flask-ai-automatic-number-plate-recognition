@@ -19,7 +19,7 @@ Simple Automatic Number Plate Recognition (ANPR) project that:
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+pip install -r deps/requirements.txt
 ```
 
 ## Expected Data
@@ -89,6 +89,59 @@ Then open http://localhost:5000 and upload an image. The app will save:
 
 - The image with bounding box to `static/predict/`.
 - The plate ROI to `static/roi/`.
+
+## Docker & Docker Compose
+
+### Using Docker Compose (recommended)
+
+Build and run the web app with TensorBoard in one command:
+
+```bash
+docker compose up --build
+```
+
+- **Web app**: http://localhost:5000
+- **TensorBoard**: http://localhost:6006 (for monitoring training logs)
+
+To run the training pipeline in a container (one-time job):
+
+```bash
+docker compose --profile train run train
+```
+
+### Using Docker alone (without Compose)
+
+Build the image:
+
+```bash
+docker build -t anpr-flask .
+```
+
+Run the Flask web app:
+
+```bash
+docker run --rm -p 5000:5000 \
+  -v ${PWD}/data:/app/data \
+  -v ${PWD}/model:/app/model \
+  -v ${PWD}/static:/app/static \
+  anpr-flask
+```
+
+Run a one-off training:
+
+```bash
+docker run --rm \
+  -v ${PWD}/data:/app/data \
+  -v ${PWD}/model:/app/model \
+  -v ${PWD}/object_detection:/app/object_detection \
+  anpr-flask python modules/05-model-training.py
+```
+
+### Important Notes for Docker
+
+- **Volumes**: The examples above mount local directories (`./data`, `./model`, `./static`, `./object_detection`) into the container so that trained models, data, and logs persist on your host machine.
+- **Docker Compose**: See `docker-compose.yml` for detailed configuration of each service (web, tensorboard, train) with all comments.
+- **Windows**: Replace `${PWD}` with `%cd%` or use PowerShell with `$PWD` if necessary.
 
 ## Project Structure (overview)
 

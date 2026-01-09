@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+
+# Envs
+.venv/
+env/
+venv/
+
+# Build artifacts / logs
+*.log
+*.joblib
+object_detection/
+
+# VCS
+.git/
+.gitignore
+
+# OS files
+*.DS_Store
+Thumbs.db
